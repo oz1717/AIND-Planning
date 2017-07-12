@@ -129,6 +129,12 @@ class AirCargoProblem(Problem):
         """
         # TODO implement
         possible_actions = []
+        kb = PropKB()
+        kb.tell(decode_state(state, self.state_map).pos_sentence())
+        for action in self.actions_list:
+            for kb_clause in kb.clauses:
+                if kb_clause in action.precond_pos:
+                    possible_actions.append(action)
         return possible_actions
 
     def result(self, state: str, action: Action):
